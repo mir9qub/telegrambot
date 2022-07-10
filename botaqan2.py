@@ -1,45 +1,56 @@
 import requests
 from bs4 import BeautifulSoup
 
-
-def get_url(name):
+mydict2 = {}
+def get_url():
     src = 'https://tengrinews.kz'
     source = requests.get(src).text
     soup = BeautifulSoup(source, 'lxml')
     top = list(soup.select(".tn-tape-grid > div:nth-of-type(2) > div > a"))
     mydict = {}
-    mydictkey = {}
     key = 1
+    
     for i in top:
         title = (str(i).split('>'))[1][:-3]
         link = str(i).split('/')
         link = 'https://tengrinews.kz' + '/' + link[1] + '/' + link[2]
         mydict[title] = key
-        mydictkey[key] = link
+        mydict2[key] = link
         key += 1
-    if name == 'get_title':
-        return mydict
-    return mydictkey
+    return mydict
 
 def parse_news(key):
-    mydict = get_url('get_link')
-    if key not in mydict:
+    
+    if key not in mydict2:
         return 'Incorrect id'
-    source = requests.get(mydict[key]).text
+    
+    source = requests.get(mydict2[key]).text
     soup = BeautifulSoup(source, 'lxml')
-    #extra = len("""Мы открыли еще один Telegram-канал. О деньгах и казахстанском бизнесе. Подписывайтесь на Tengri Деньги! 
-#Өзекті жаңалықтарды сілтемесіз оқу үшін Telegram желісінде парақшамызға тіркеліңіз!""")
-
+    
     article = (soup.find_all('article'))
     ans = []
+    
     for i in article:
         text = ' '.join(str(i.text).split())
         if text:
             ans.append(text+'\n')
 
 
-    picture = (str(soup.picture.source.img).split('src=')[-1].split()[0].split('/'))
-    picture = 'tengrinews.kz/' + '/'.join(picture[1:-1]) + '/' + picture[-1][:-1]
+    video = ''
+    picture = ''
+    try:
+        picture = (str(soup.picture.source.img).split('src=')[-1].split()[0].split('/'))
+        picture = 'tengrinews.kz/' + '/'.join(picture[1:-1]) + '/' + picture[-1][:-1]
+    except:
+        pass
 
-    ans = ' '.join(ans), picture
-    return ans[:]
+    try:
+        video = str(soup.video.source).split('/')
+        video = 'tengrinews.kz/' + '/'.join(video[1:5]) + '/' + video[-2][:-4]
+    except:
+        pass
+
+
+    ans = ' '.join(ans)
+
+    return [ans, picture, video]
