@@ -23,20 +23,23 @@ def get_url(name):
 
 def parse_news(key):
     mydict = get_url('get_link')
+    if key not in mydict:
+        return 'Incorrect id'
     source = requests.get(mydict[key]).text
     soup = BeautifulSoup(source, 'lxml')
     extra = len("""Мы открыли еще один Telegram-канал. О деньгах и казахстанском бизнесе. Подписывайтесь на Tengri Деньги! 
 Өзекті жаңалықтарды сілтемесіз оқу үшін Telegram желісінде парақшамызға тіркеліңіз!""")
 
-    #title = ' '.join(str(soup.h1.text).split())
     article = (soup.find_all('article'))
-    ans = ''
+    ans = []
     for i in article:
-        if i.text:
-            ans += i.text + '\n'
-        
+        text = ' '.join(str(i.text).split())
+        if text:
+            ans.append(text+'\n')
+
+
 
     #picture = soup.select("picture")
 
-
+    ans = ' '.join(ans)
     return ans[:-extra-2]
