@@ -7,8 +7,8 @@ from bs4 import BeautifulSoup
 from botaqan2 import get_url, parse_news
 
 
-#token = os.environ.get('BOT_TOKEN')
-bot = telebot.TeleBot("5112758318:AAHvkL00paIUlom1e3t5tGqzcf56rQzFN2c")
+token = os.environ.get('BOT_TOKEN')
+bot = telebot.TeleBot()
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
