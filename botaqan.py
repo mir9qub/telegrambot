@@ -36,9 +36,13 @@ def get_id_news(message):
 	except:
 		bot.send_message(message.chat.id, "Id it's and integer")
 
-	article, picture = parse_news(key)
-	article += '\n' + picture
-	bot.send_message(message.chat.id, article)
+	article = parse_news(key)
+	if len(article) > 5:
+		bot.send_message(message.chat.id, article)
+
+	else:
+		article = '\n'.join(article)
+		bot.send_message(message.chat.id, article)
 
 
 
