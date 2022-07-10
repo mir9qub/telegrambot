@@ -27,8 +27,8 @@ def parse_news(key):
         return 'Incorrect id'
     source = requests.get(mydict[key]).text
     soup = BeautifulSoup(source, 'lxml')
-    extra = len("""Мы открыли еще один Telegram-канал. О деньгах и казахстанском бизнесе. Подписывайтесь на Tengri Деньги! 
-Өзекті жаңалықтарды сілтемесіз оқу үшін Telegram желісінде парақшамызға тіркеліңіз!""")
+    #extra = len("""Мы открыли еще один Telegram-канал. О деньгах и казахстанском бизнесе. Подписывайтесь на Tengri Деньги! 
+#Өзекті жаңалықтарды сілтемесіз оқу үшін Telegram желісінде парақшамызға тіркеліңіз!""")
 
     article = (soup.find_all('article'))
     ans = []
@@ -42,4 +42,4 @@ def parse_news(key):
     #picture = soup.select("picture")
 
     ans = ' '.join(ans)
-    return ans[:-extra-2]
+    return ans[:]
