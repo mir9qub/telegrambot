@@ -38,8 +38,8 @@ def parse_news(key):
             ans.append(text+'\n')
 
 
+    picture = (str(soup.picture.source.img).split('src=')[-1].split()[0].split('/'))
+    picture = 'tengrinews.kz/' + '/'.join(picture[1:-1]) + '/' + picture[-1][:-1]
 
-    #picture = soup.select("picture")
-
-    ans = ' '.join(ans)
+    ans = ' '.join(ans), picture
     return ans[:]
