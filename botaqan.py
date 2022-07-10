@@ -36,7 +36,8 @@ def get_id_news(message):
 	except:
 		bot.send_message(message.chat.id, "Id it's and integer")
 
-	article = parse_news(key)
+	article, picture = parse_news(key)
+	article += '\n' + picture
 	bot.send_message(message.chat.id, article)
 
 
